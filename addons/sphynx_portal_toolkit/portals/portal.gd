@@ -12,6 +12,11 @@ const portal_material : Material = preload("res://addons/sphynx_portal_toolkit/p
 		other_portal = value
 		if !other_portal:
 			return
+		
+		other_portal.layers = 1 << 2
+		other_portal.portal_camera.cull_mask = ~(1 << 1)
+		layers = 1 << 1
+		portal_camera.cull_mask = ~(1 << 2)
 
 @export var recursions : int = 0
 
@@ -20,8 +25,6 @@ const portal_material : Material = preload("res://addons/sphynx_portal_toolkit/p
 @export var debug_color : Color
 
 func _ready() -> void:
-	layers = 1 << 1
-	portal_camera.cull_mask = ~(1 << 1)
 	portal_viewport.size = get_window().size
 	set_surface_override_material(0, portal_material.duplicate())
 	get_surface_override_material(0).set_shader_parameter("viewport_texture", portal_viewport.get_texture())
