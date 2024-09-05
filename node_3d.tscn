@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://bkplvx38o8s74"]
+[gd_scene load_steps=34 format=3 uid="uid://bkplvx38o8s74"]
 
 [ext_resource type="Texture2D" uid="uid://dyiy0heuf6ykb" path="res://icon.svg" id="1_7trp7"]
 [ext_resource type="Script" path="res://spring_arm_3d.gd" id="2_0k5o5"]
@@ -107,6 +107,23 @@ shader_parameter/debug_color = null
 
 [sub_resource type="SphereMesh" id="SphereMesh_024vf"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fd1k6"]
+render_priority = 0
+shader = ExtResource("2_vqac7")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/point_size = null
+shader_parameter/roughness = null
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/uv1_scale = null
+shader_parameter/uv1_offset = null
+shader_parameter/uv2_scale = null
+shader_parameter/uv2_offset = null
+shader_parameter/active_split = false
+shader_parameter/split_plane_origin = null
+shader_parameter/split_plane_normal = null
+
 [node name="Node3D" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -152,7 +169,6 @@ script = ExtResource("2_0k5o5")
 [node name="Camera3D" type="Camera3D" parent="CharacterBody3D/SpringArm3D"]
 
 [node name="TeleportComponent" type="Area3D" parent="CharacterBody3D/SpringArm3D/Camera3D" node_paths=PackedStringArray("parent_to_teleport")]
-visible = false
 disable_mode = 2
 collision_layer = 512
 collision_mask = 512
@@ -201,13 +217,13 @@ surface_material_override/0 = SubResource("StandardMaterial3D_85fs0")
 shape = SubResource("ConcavePolygonShape3D_bq7pf")
 
 [node name="Portal1" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0511, 2.15849, 4.41985)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0511, 2.15849, -6.25105)
 surface_material_override/0 = SubResource("ShaderMaterial_c3pyk")
 other_portal = NodePath("../Portal2")
 debug_color = Color(1, 0, 0, 1)
 
 [node name="Portal2" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0511, 2.15849, -4.3975)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0511, 2.15849, 3.82622)
 surface_material_override/0 = SubResource("ShaderMaterial_r506b")
 other_portal = NodePath("../Portal1")
 debug_color = Color(0, 1, 0, 1)
@@ -219,19 +235,21 @@ other_portal = NodePath("../Portal4")
 debug_color = Color(1, 0, 0, 1)
 
 [node name="Portal4" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
-transform = Transform3D(1, 0, 0, 0, -0.258819, 0.965926, 0, -0.965926, -0.258819, -1.31066, 4.24867, 0)
+transform = Transform3D(1, 0, 0, 0, 4.47035e-08, 1, 0, -1, 4.47035e-08, -1.31066, 4.24867, 0)
 surface_material_override/0 = SubResource("ShaderMaterial_l50kx")
 other_portal = NodePath("../Portal3")
 debug_color = Color(0, 1, 0, 1)
 
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.15374, 2.79185, 0)
+gravity_scale = 0.1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
 shape = SubResource("SphereShape3D_yj1ju")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
 mesh = SubResource("SphereMesh_024vf")
+surface_material_override/0 = SubResource("ShaderMaterial_fd1k6")
 
 [node name="TeleportComponent" type="Area3D" parent="RigidBody3D" node_paths=PackedStringArray("parent_to_teleport")]
 disable_mode = 2
@@ -239,3 +257,14 @@ collision_layer = 512
 collision_mask = 512
 script = ExtResource("3_8i7u8")
 parent_to_teleport = NodePath("..")
+
+[node name="SplittableArea" type="Area3D" parent="RigidBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D/SplittableArea"]
+shape = SubResource("SphereShape3D_yj1ju")
+
+[node name="SplittableComponent" type="Node" parent="RigidBody3D" node_paths=PackedStringArray("mesh_to_split", "mesh_collision", "teleport_component")]
+script = ExtResource("2_1ik2r")
+mesh_to_split = NodePath("../MeshInstance3D")
+mesh_collision = NodePath("../SplittableArea")
+teleport_component = NodePath("../TeleportComponent")

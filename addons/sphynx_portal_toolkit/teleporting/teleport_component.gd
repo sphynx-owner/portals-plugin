@@ -2,6 +2,8 @@
 class_name TeleportComponent
 extends Area3D
 
+signal teleported()
+
 @export var radius : float = 1 :
 	set(value):
 		radius = value
@@ -60,3 +62,4 @@ func teleport():
 	if parent_to_teleport is RigidBody3D:
 		parent_to_teleport.linear_velocity = teleport_transform.basis * parent_to_teleport.linear_velocity
 		parent_to_teleport.angular_velocity = teleport_transform.basis * parent_to_teleport.angular_velocity
+	teleported.emit()

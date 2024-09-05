@@ -25,6 +25,8 @@ func _ready() -> void:
 	mesh_collision.collision_layer = 1 << 9
 	mesh_collision.body_entered.connect(on_portal_body_entered)
 	mesh_collision.body_exited.connect(on_portal_body_exited)
+	teleport_component.teleported.connect(on_teleported)
+	process_priority = 1
 
 func _process(delta: float) -> void:
 	if !portal_in_contact:
@@ -40,13 +42,13 @@ func _process(delta: float) -> void:
 	mesh_copy.global_transform = teleport_transform * mesh_to_split.global_transform
 	for material in mesh_copy.get_surface_override_material_count():
 		mesh_to_split.get_surface_override_material(material).set_shader_parameter("split_plane_origin", portal_origin)
-		mesh_to_split.get_surface_override_material(material).set_shader_parameter("split_plane_normal", portal_normal * (1 if teleport_component.get_in_front(portal_in_contact) else -1))
+		mesh_to_split.get_surface_override_material(material).set_shader_parameter("split_plane_normal", portal_normal * (1 if get_in_front(portal_in_contact) else -1))
 		mesh_copy.get_surface_override_material(material).set_shader_parameter("split_plane_origin", copy_portal_origin)
-		mesh_copy.get_surface_override_material(material).set_shader_parameter("split_plane_normal", -copy_portal_normal * (1 if teleport_component.get_in_front(portal_in_contact) else -1))
+		mesh_copy.get_surface_override_material(material).set_shader_parameter("split_plane_normal", -copy_portal_normal * (1 if get_in_front(portal_in_contact) else -1))
 
 func get_in_front(portal : Portal) -> bool:
 	var portal_transform : Transform3D = portal.global_transform
-	var offset : Vector3 = mesh_to_split.global_position - portal_transform.origin
+	var offset : Vector3 = teleport_component.global_position - portal_transform.origin
 	return !(portal_transform.basis.z.dot(offset) < 0)
 
 func on_portal_body_entered(body : Node3D):
@@ -62,3 +64,6 @@ func on_portal_body_exited(body : Node3D):
 		portal_in_contact = null
 		mesh_copy.visible = false
 	mesh_to_split.get_surface_override_material(0).set_shader_parameter("active_split", false)
+
+func on_teleported():
+	portal_in_contact = portal_in_contact.other_portal
