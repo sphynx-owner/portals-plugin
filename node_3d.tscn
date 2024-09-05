@@ -1,8 +1,11 @@
-[gd_scene load_steps=28 format=3 uid="uid://bkplvx38o8s74"]
+[gd_scene load_steps=33 format=3 uid="uid://bkplvx38o8s74"]
 
 [ext_resource type="Texture2D" uid="uid://dyiy0heuf6ykb" path="res://icon.svg" id="1_7trp7"]
 [ext_resource type="Script" path="res://spring_arm_3d.gd" id="2_0k5o5"]
+[ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/teleporting/splittable_component.gd" id="2_1ik2r"]
 [ext_resource type="Script" path="res://character_body_3d.gd" id="2_6ikkn"]
+[ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/teleporting/spring_arm_collision.gd" id="2_6y0cj"]
+[ext_resource type="Shader" uid="uid://bp2ihin1o8y5n" path="res://addons/sphynx_portal_toolkit/teleporting/splittable_mesh_shader.tres" id="2_vqac7"]
 [ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/teleporting/teleport_component.gd" id="3_8i7u8"]
 [ext_resource type="PackedScene" uid="uid://d3b3awue80a6c" path="res://addons/sphynx_portal_toolkit/portals/portal_scene.tscn" id="4_r8fyi"]
 [ext_resource type="Shader" path="res://addons/sphynx_portal_toolkit/portals/portal.gdshader" id="6_t071c"]
@@ -18,7 +21,28 @@ sky = SubResource("Sky_8303w")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3dk38"]
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_52lvn"]
+height = 4.0
+radius = 0.01
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_7ea08"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6lq5l"]
+render_priority = 0
+shader = ExtResource("2_vqac7")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/active_split = false
+shader_parameter/split_plane_origin = null
+shader_parameter/split_plane_normal = Vector3(1, 0, 0)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_2i6hs"]
 size = Vector2(40, 40)
@@ -96,19 +120,38 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.2011
 script = ExtResource("2_6ikkn")
 camera = NodePath("SpringArm3D/Camera3D")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+[node name="BodyCollision" type="CollisionShape3D" parent="CharacterBody3D"]
 shape = SubResource("CapsuleShape3D_3dk38")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
+[node name="BodyArea" type="Area3D" parent="CharacterBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/BodyArea"]
+shape = SubResource("CapsuleShape3D_3dk38")
+
+[node name="SpringArmCollision" type="CollisionShape3D" parent="CharacterBody3D/BodyArea" node_paths=PackedStringArray("spring_arm")]
+transform = Transform3D(1, -4.37114e-08, 4.37114e-08, 4.37114e-08, -4.37114e-08, -1, 4.37114e-08, 1, -4.37114e-08, -8.13937e-08, 0.492024, 1.86207)
+shape = SubResource("CylinderShape3D_52lvn")
+script = ExtResource("2_6y0cj")
+spring_arm = NodePath("../../SpringArm3D")
+
+[node name="BodyMesh" type="MeshInstance3D" parent="CharacterBody3D"]
+mesh = SubResource("CapsuleMesh_7ea08")
+surface_material_override/0 = SubResource("ShaderMaterial_6lq5l")
+
+[node name="SplittableComponent" type="Node" parent="CharacterBody3D" node_paths=PackedStringArray("mesh_to_split", "mesh_collision", "teleport_component")]
+script = ExtResource("2_1ik2r")
+mesh_to_split = NodePath("../BodyMesh")
+mesh_collision = NodePath("../BodyArea")
+teleport_component = NodePath("../SpringArm3D/Camera3D/TeleportComponent")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.532755, 0)
-spring_length = 2.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.589004, 0)
+spring_length = 4.0
 script = ExtResource("2_0k5o5")
 
 [node name="Camera3D" type="Camera3D" parent="CharacterBody3D/SpringArm3D"]
 
-[node name="TransportComponent" type="Area3D" parent="CharacterBody3D/SpringArm3D/Camera3D" node_paths=PackedStringArray("parent_to_teleport")]
+[node name="TeleportComponent" type="Area3D" parent="CharacterBody3D/SpringArm3D/Camera3D" node_paths=PackedStringArray("parent_to_teleport")]
 visible = false
 disable_mode = 2
 collision_layer = 512
@@ -116,9 +159,6 @@ collision_mask = 512
 script = ExtResource("3_8i7u8")
 radius = 0.1
 parent_to_teleport = NodePath("../../..")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="CharacterBody3D"]
-mesh = SubResource("CapsuleMesh_7ea08")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_2i6hs")
@@ -193,7 +233,7 @@ shape = SubResource("SphereShape3D_yj1ju")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
 mesh = SubResource("SphereMesh_024vf")
 
-[node name="TransportComponent" type="Area3D" parent="RigidBody3D" node_paths=PackedStringArray("parent_to_teleport")]
+[node name="TeleportComponent" type="Area3D" parent="RigidBody3D" node_paths=PackedStringArray("parent_to_teleport")]
 disable_mode = 2
 collision_layer = 512
 collision_mask = 512
