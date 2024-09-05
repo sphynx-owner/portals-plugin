@@ -13,6 +13,8 @@ const portal_material : Material = preload("res://addons/sphynx_portal_toolkit/p
 		if !other_portal:
 			return
 
+@export var recursions : int = 0
+
 @export var show_debug : bool = false
 
 @export var debug_color : Color
@@ -25,6 +27,8 @@ func _ready() -> void:
 	get_surface_override_material(0).set_shader_parameter("viewport_texture", portal_viewport.get_texture())
 	get_surface_override_material(0).set_shader_parameter("debug_color", debug_color)
 	get_surface_override_material(0).set_shader_parameter("show_debug", 1 if show_debug else 0)
+	portal_viewport
 
 func _process(delta: float) -> void:
-	portal_camera.global_transform = other_portal.global_transform * (global_transform.affine_inverse() * get_viewport().get_camera_3d().global_transform)
+	var teleport_transform : Transform3D = other_portal.global_transform * global_transform.affine_inverse()
+	portal_camera.global_transform =  teleport_transform * get_viewport().get_camera_3d().global_transform

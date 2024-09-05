@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://dyiy0heuf6ykb" path="res://icon.svg" id="1_7trp7"]
 [ext_resource type="Script" path="res://spring_arm_3d.gd" id="2_0k5o5"]
 [ext_resource type="Script" path="res://character_body_3d.gd" id="2_6ikkn"]
-[ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/transporting/transport_component.gd" id="3_8i7u8"]
+[ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/teleporting/teleport_component.gd" id="3_8i7u8"]
 [ext_resource type="PackedScene" uid="uid://d3b3awue80a6c" path="res://addons/sphynx_portal_toolkit/portals/portal_scene.tscn" id="4_r8fyi"]
 [ext_resource type="Shader" path="res://addons/sphynx_portal_toolkit/portals/portal.gdshader" id="6_t071c"]
 
@@ -161,13 +161,13 @@ surface_material_override/0 = SubResource("StandardMaterial3D_85fs0")
 shape = SubResource("ConcavePolygonShape3D_bq7pf")
 
 [node name="Portal1" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
-transform = Transform3D(1.54892, 0, -1.26525, 0, 2, 0, 1.26525, 0, 1.54892, 1.923, 1.1118, -3.75)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0511, 2.15849, 4.41985)
 surface_material_override/0 = SubResource("ShaderMaterial_c3pyk")
 other_portal = NodePath("../Portal2")
 debug_color = Color(1, 0, 0, 1)
 
 [node name="Portal2" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
-transform = Transform3D(-2.22849, 0, 3.32172, 0, 4, 0, -3.32172, 0, -2.22849, -2.34609, 2.16609, 4.52475)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0511, 2.15849, -4.3975)
 surface_material_override/0 = SubResource("ShaderMaterial_r506b")
 other_portal = NodePath("../Portal1")
 debug_color = Color(0, 1, 0, 1)

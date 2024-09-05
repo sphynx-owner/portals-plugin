@@ -13,13 +13,13 @@ uniform sampler2D outline_curve;
 varying vec3 vertex_pos;
 
 void vertex() {
-	vec4 tl_position = INV_VIEW_MATRIX * PROJECTION_MATRIX * vec4(1, -1, 2, 1);
+	vec4 tl_position = INV_VIEW_MATRIX * INV_PROJECTION_MATRIX * vec4(1, -1, 1, 1);
 	tl_position.xyz /= tl_position.w;
-	vec4 tr_position = INV_VIEW_MATRIX * PROJECTION_MATRIX * vec4(-1, -1, 2, 1);
+	vec4 tr_position = INV_VIEW_MATRIX * INV_PROJECTION_MATRIX * vec4(-1, -1, 1, 1);
 	tr_position.xyz /= tr_position.w;
-	vec4 bl_position = INV_VIEW_MATRIX * PROJECTION_MATRIX * vec4(1, 1, 2, 1);
+	vec4 bl_position = INV_VIEW_MATRIX * INV_PROJECTION_MATRIX * vec4(1, 1, 1, 1);
 	bl_position.xyz /= bl_position.w;
-	vec4 br_position = INV_VIEW_MATRIX * PROJECTION_MATRIX * vec4(-1, -1, 2, 1);
+	vec4 br_position = INV_VIEW_MATRIX * INV_PROJECTION_MATRIX * vec4(-1, -1, 1, 1);
 	br_position.xyz /= br_position.w;
 	vec3 model_world_position = vec3(MODEL_MATRIX[3][0], MODEL_MATRIX[3][1], MODEL_MATRIX[3][2]);
 	vec3 camera_offset = CAMERA_POSITION_WORLD - model_world_position;

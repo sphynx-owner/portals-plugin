@@ -1,5 +1,5 @@
 @tool
-class_name TransportComponent
+class_name TeleportComponent
 extends Area3D
 
 @export var radius : float = 1 :
@@ -25,7 +25,6 @@ func _ready():
 	collision_layer = 1 << 9
 	body_entered.connect(on_portal_body_entered)
 	body_exited.connect(on_portal_body_exited)
-	disable_mode = DISABLE_MODE_KEEP_ACTIVE
 
 func _process(delta: float) -> void:
 	
@@ -35,7 +34,7 @@ func _process(delta: float) -> void:
 	var current_in_front : bool = get_in_front(portal_in_contact)
 	
 	if current_in_front != in_front:
-		teleport.call_deferred()
+		teleport()
 
 func get_in_front(portal : Portal) -> bool:
 	var portal_transform : Transform3D = portal.global_transform
@@ -56,8 +55,8 @@ func teleport():
 	print("teleporting")
 	var temp_portal_in_contact : Portal = portal_in_contact
 	portal_in_contact = null
-	parent_to_teleport.global_transform = temp_portal_in_contact.other_portal.global_transform * (temp_portal_in_contact.global_transform.affine_inverse() * parent_to_teleport.global_transform)
-	var teleport_basis : Basis = temp_portal_in_contact.other_portal.global_basis * temp_portal_in_contact.global_basis.orthonormalized().inverse()
+	var teleport_transform : Transform3D = temp_portal_in_contact.other_portal.global_transform * temp_portal_in_contact.global_transform.affine_inverse() 
+	parent_to_teleport.global_transform = teleport_transform * parent_to_teleport.global_transform
 	if parent_to_teleport is RigidBody3D:
-		parent_to_teleport.linear_velocity = teleport_basis * parent_to_teleport.linear_velocity
-		parent_to_teleport.angular_velocity = teleport_basis * parent_to_teleport.angular_velocity
+		parent_to_teleport.linear_velocity = teleport_transform.basis * parent_to_teleport.linear_velocity
+		parent_to_teleport.angular_velocity = teleport_transform.basis * parent_to_teleport.angular_velocity
