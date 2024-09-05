@@ -1,16 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://d3b3awue80a6c"]
+[gd_scene load_steps=5 format=3 uid="uid://d3b3awue80a6c"]
 
+[ext_resource type="Material" uid="uid://c5ht6tlhbi7o2" path="res://addons/sphynx_portal_toolkit/portals/portal_material.tres" id="1_1og6m"]
 [ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/portals/portal.gd" id="1_s7yg8"]
 
-[sub_resource type="QuadMesh" id="QuadMesh_stdxc"]
+[sub_resource type="QuadMesh" id="QuadMesh_gichd"]
 
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_3kuxk"]
-data = PackedVector3Array(0.5, -0.5, 0, -0.5, -0.5, 0, 0.5, 0.5, 0, -0.5, -0.5, 0, -0.5, 0.5, 0, 0.5, 0.5, 0)
+[sub_resource type="BoxShape3D" id="BoxShape3D_r2tip"]
+size = Vector3(1, 1, 0.5)
 
 [node name="Portal1" type="MeshInstance3D" node_paths=PackedStringArray("portal_viewport", "portal_camera")]
-transform = Transform3D(0.869788, 0, 0.493426, 0, 1, 0, -0.493426, 0, 0.869788, -0.908199, 0.671574, -1.64616)
-layers = 2
-mesh = SubResource("QuadMesh_stdxc")
+mesh = SubResource("QuadMesh_gichd")
+surface_material_override/0 = ExtResource("1_1og6m")
 script = ExtResource("1_s7yg8")
 portal_viewport = NodePath("PortalViewport")
 portal_camera = NodePath("PortalViewport/PortalCamera")
@@ -18,11 +18,10 @@ portal_camera = NodePath("PortalViewport/PortalCamera")
 [node name="PortalViewport" type="SubViewport" parent="."]
 
 [node name="PortalCamera" type="Camera3D" parent="PortalViewport"]
-cull_mask = 1048573
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 collision_layer = 512
 collision_mask = 512
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("ConcavePolygonShape3D_3kuxk")
+shape = SubResource("BoxShape3D_r2tip")
