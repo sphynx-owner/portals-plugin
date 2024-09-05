@@ -217,25 +217,25 @@ surface_material_override/0 = SubResource("StandardMaterial3D_85fs0")
 shape = SubResource("ConcavePolygonShape3D_bq7pf")
 
 [node name="Portal1" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0511, 2.15849, -6.25105)
+transform = Transform3D(2, 0, 0, 0, 4, 0, 0, 0, 1, 2.0511, 2.15849, -6.25105)
 surface_material_override/0 = SubResource("ShaderMaterial_c3pyk")
 other_portal = NodePath("../Portal2")
 debug_color = Color(1, 0, 0, 1)
 
 [node name="Portal2" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0511, 2.15849, 3.82622)
+transform = Transform3D(2, 0, 0, 0, 4, 0, 0, 0, 1, 2.0511, 2.15849, 3.82622)
 surface_material_override/0 = SubResource("ShaderMaterial_r506b")
 other_portal = NodePath("../Portal1")
 debug_color = Color(0, 1, 0, 1)
 
 [node name="Portal3" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -1.31066, 1.50737, 0)
+transform = Transform3D(1.715, 0, 0, 0, -7.4965e-08, 1.715, 0, -1.715, -7.4965e-08, -1.31066, 1.50737, 0)
 surface_material_override/0 = SubResource("ShaderMaterial_5v7hw")
 other_portal = NodePath("../Portal4")
 debug_color = Color(1, 0, 0, 1)
 
 [node name="Portal4" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
-transform = Transform3D(1, 0, 0, 0, 4.47035e-08, 1, 0, -1, 4.47035e-08, -1.31066, 4.24867, 0)
+transform = Transform3D(1.715, 0, 0, 0, -7.4965e-08, 1.715, 0, -1.715, -7.4965e-08, -1.31066, 4.24867, 0)
 surface_material_override/0 = SubResource("ShaderMaterial_l50kx")
 other_portal = NodePath("../Portal3")
 debug_color = Color(0, 1, 0, 1)
