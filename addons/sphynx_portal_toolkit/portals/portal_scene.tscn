@@ -14,16 +14,16 @@ albedo_color = Color(0, 1, 0, 1)
 size = Vector3(1, 1, 0.01)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ur7mh"]
-size = Vector3(0.001, 1, 0.2)
+size = Vector3(0.1, 1, 0.2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nccee"]
-size = Vector3(1, 0.001, 0.2)
+size = Vector3(1, 0.1, 0.2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_hd5ie"]
-size = Vector3(0.001, 1, 0.2)
+size = Vector3(0.1, 1, 0.2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_55pwm"]
-size = Vector3(1, 0.001, 0.2)
+size = Vector3(1, 0.1, 0.2)
 
 [node name="Portal1" type="MeshInstance3D" node_paths=PackedStringArray("portal_viewport", "portal_camera", "portal_chroma_key")]
 mesh = SubResource("QuadMesh_gichd")
