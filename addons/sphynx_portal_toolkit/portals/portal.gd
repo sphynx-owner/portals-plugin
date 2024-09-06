@@ -73,6 +73,8 @@ func _process(delta: float) -> void:
 	var teleport_transform : Transform3D = other_portal.global_transform * global_transform.affine_inverse()
 	var current_iter_transform : Transform3D = teleport_transform * get_viewport().get_camera_3d().global_transform
 	portal_camera.global_transform = current_iter_transform
+	portal_camera.fov = get_viewport().get_camera_3d().fov
 	for camera in all_cameras:
 		current_iter_transform = teleport_transform * current_iter_transform
 		camera.global_transform = current_iter_transform
+		camera.fov = get_viewport().get_camera_3d().fov
