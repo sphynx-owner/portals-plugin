@@ -65,5 +65,5 @@ func on_portal_body_exited(body : Node3D):
 		mesh_copy.visible = false
 	mesh_to_split.get_surface_override_material(0).set_shader_parameter("active_split", false)
 
-func on_teleported():
-	portal_in_contact = portal_in_contact.other_portal
+func on_teleported(new_portal : Portal):
+	portal_in_contact = new_portal

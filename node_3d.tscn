@@ -81,6 +81,7 @@ render_priority = 0
 shader = ExtResource("6_t071c")
 shader_parameter/show_debug = null
 shader_parameter/debug_color = null
+shader_parameter/inner_textures = null
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r506b"]
 resource_local_to_scene = true
@@ -88,6 +89,7 @@ render_priority = 0
 shader = ExtResource("6_t071c")
 shader_parameter/show_debug = null
 shader_parameter/debug_color = null
+shader_parameter/inner_textures = null
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5v7hw"]
 resource_local_to_scene = true
@@ -95,6 +97,7 @@ render_priority = 0
 shader = ExtResource("6_t071c")
 shader_parameter/show_debug = null
 shader_parameter/debug_color = null
+shader_parameter/inner_textures = null
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_l50kx"]
 resource_local_to_scene = true
@@ -102,6 +105,7 @@ render_priority = 0
 shader = ExtResource("6_t071c")
 shader_parameter/show_debug = null
 shader_parameter/debug_color = null
+shader_parameter/inner_textures = null
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_yj1ju"]
 
@@ -167,6 +171,7 @@ spring_length = 4.0
 script = ExtResource("2_0k5o5")
 
 [node name="Camera3D" type="Camera3D" parent="CharacterBody3D/SpringArm3D"]
+cull_mask = 1048563
 
 [node name="TeleportComponent" type="Area3D" parent="CharacterBody3D/SpringArm3D/Camera3D" node_paths=PackedStringArray("parent_to_teleport")]
 disable_mode = 2
@@ -219,26 +224,26 @@ shape = SubResource("ConcavePolygonShape3D_bq7pf")
 [node name="Portal1" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
 transform = Transform3D(2, 0, 0, 0, 4, 0, 0, 0, 1, 2.0511, 2.15849, -6.25105)
 surface_material_override/0 = SubResource("ShaderMaterial_c3pyk")
+recursions = 3
 other_portal = NodePath("../Portal2")
-debug_color = Color(1, 0, 0, 1)
 
 [node name="Portal2" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
 transform = Transform3D(2, 0, 0, 0, 4, 0, 0, 0, 1, 2.0511, 2.15849, 3.82622)
 surface_material_override/0 = SubResource("ShaderMaterial_r506b")
+recursions = 3
 other_portal = NodePath("../Portal1")
-debug_color = Color(0, 1, 0, 1)
 
 [node name="Portal3" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
 transform = Transform3D(1.715, 0, 0, 0, -7.4965e-08, 1.715, 0, -1.715, -7.4965e-08, -1.31066, 1.50737, 0)
 surface_material_override/0 = SubResource("ShaderMaterial_5v7hw")
+recursions = 2
 other_portal = NodePath("../Portal4")
-debug_color = Color(1, 0, 0, 1)
 
 [node name="Portal4" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
 transform = Transform3D(1.715, 0, 0, 0, -7.4965e-08, 1.715, 0, -1.715, -7.4965e-08, -1.31066, 4.24867, 0)
 surface_material_override/0 = SubResource("ShaderMaterial_l50kx")
+recursions = 2
 other_portal = NodePath("../Portal3")
-debug_color = Color(0, 1, 0, 1)
 
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.15374, 2.79185, 0)

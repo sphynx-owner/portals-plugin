@@ -1,19 +1,30 @@
-[gd_scene load_steps=5 format=3 uid="uid://d3b3awue80a6c"]
+[gd_scene load_steps=6 format=3 uid="uid://d3b3awue80a6c"]
 
 [ext_resource type="Material" uid="uid://c5ht6tlhbi7o2" path="res://addons/sphynx_portal_toolkit/portals/portal_material.tres" id="1_1og6m"]
 [ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/portals/portal.gd" id="1_s7yg8"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_gichd"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j848f"]
+cull_mode = 2
+shading_mode = 0
+albedo_color = Color(0, 1, 0, 1)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_r2tip"]
 size = Vector3(1, 1, 0.5)
 
-[node name="Portal1" type="MeshInstance3D" node_paths=PackedStringArray("portal_viewport", "portal_camera")]
+[node name="Portal1" type="MeshInstance3D" node_paths=PackedStringArray("portal_viewport", "portal_camera", "portal_chroma_key")]
 mesh = SubResource("QuadMesh_gichd")
 surface_material_override/0 = ExtResource("1_1og6m")
 script = ExtResource("1_s7yg8")
 portal_viewport = NodePath("PortalViewport")
 portal_camera = NodePath("PortalViewport/PortalCamera")
+portal_chroma_key = NodePath("PortalChromaKey")
+
+[node name="PortalChromaKey" type="MeshInstance3D" parent="."]
+layers = 4
+mesh = SubResource("QuadMesh_gichd")
+surface_material_override/0 = SubResource("StandardMaterial3D_j848f")
 
 [node name="PortalViewport" type="SubViewport" parent="."]
 

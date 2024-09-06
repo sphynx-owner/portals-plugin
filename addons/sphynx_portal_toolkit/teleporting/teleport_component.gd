@@ -62,4 +62,4 @@ func teleport():
 	if parent_to_teleport is RigidBody3D:
 		parent_to_teleport.linear_velocity = teleport_transform.basis * parent_to_teleport.linear_velocity
 		parent_to_teleport.angular_velocity = teleport_transform.basis * parent_to_teleport.angular_velocity
-	teleported.emit()
+	teleported.emit(temp_portal_in_contact.other_portal)
