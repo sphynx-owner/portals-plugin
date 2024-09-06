@@ -44,17 +44,16 @@ func get_in_front(portal : Portal) -> bool:
 	return !(portal_transform.basis.z.dot(offset) < 0)
 
 func on_portal_body_entered(body : Node3D):
-	print("entered portal")
+	print("teleport entered portal")
 	portal_in_contact = body.owner
 	in_front = get_in_front(portal_in_contact)
 
 func on_portal_body_exited(body : Node3D):
-	print("exited portal")
-	if body.owner == portal_in_contact:
-		portal_in_contact = null
+	print("teleport exited portal")
+	portal_in_contact = null
 
 func teleport():
-	print("teleporting")
+	print("teleport teleporting")
 	var temp_portal_in_contact : Portal = portal_in_contact
 	portal_in_contact = null
 	var teleport_transform : Transform3D = temp_portal_in_contact.other_portal.global_transform * temp_portal_in_contact.global_transform.affine_inverse() 

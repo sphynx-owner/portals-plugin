@@ -38,6 +38,7 @@ var all_cameras : Array[Camera3D]
 
 func _ready() -> void:
 	portal_viewport.size = get_window().size
+	portal_camera
 	set_surface_override_material(0, portal_material.duplicate())
 	get_surface_override_material(0).set_shader_parameter("viewport_texture", portal_viewport.get_texture())
 	get_surface_override_material(0).set_shader_parameter("debug_color", debug_color)
@@ -55,7 +56,7 @@ func generate_subviewports():
 	clear_subviewports()
 	
 	var all_inner_textures : Array[ViewportTexture]
-	
+	var all_viewport_indexes : Array[int]
 	for i in recursions:
 		var new_viewport : SubViewport = SubViewport.new()
 		add_child(new_viewport)

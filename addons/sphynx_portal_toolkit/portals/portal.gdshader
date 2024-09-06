@@ -5,6 +5,7 @@ render_mode unshaded, cull_disabled;
 uniform sampler2D viewport_texture;
 
 uniform sampler2D inner_textures[10];
+uniform int viewport_indexes[10];
 
 uniform float show_debug;
 

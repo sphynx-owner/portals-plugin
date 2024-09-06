@@ -6,3 +6,7 @@
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_8yexd")
+shader_parameter/viewport_indexes = null
+shader_parameter/show_debug = null
+shader_parameter/debug_color = null
+shader_parameter/inner_textures = null

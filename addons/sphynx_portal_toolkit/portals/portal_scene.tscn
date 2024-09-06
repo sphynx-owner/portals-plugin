@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://d3b3awue80a6c"]
+[gd_scene load_steps=10 format=3 uid="uid://d3b3awue80a6c"]
 
 [ext_resource type="Material" uid="uid://c5ht6tlhbi7o2" path="res://addons/sphynx_portal_toolkit/portals/portal_material.tres" id="1_1og6m"]
 [ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/portals/portal.gd" id="1_s7yg8"]
@@ -11,7 +11,19 @@ shading_mode = 0
 albedo_color = Color(0, 1, 0, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r2tip"]
-size = Vector3(1, 1, 0.5)
+size = Vector3(1, 1, 0.01)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ur7mh"]
+size = Vector3(0.001, 1, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nccee"]
+size = Vector3(1, 0.001, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hd5ie"]
+size = Vector3(0.001, 1, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_55pwm"]
+size = Vector3(1, 0.001, 0.2)
 
 [node name="Portal1" type="MeshInstance3D" node_paths=PackedStringArray("portal_viewport", "portal_camera", "portal_chroma_key")]
 mesh = SubResource("QuadMesh_gichd")
@@ -30,9 +42,27 @@ surface_material_override/0 = SubResource("StandardMaterial3D_j848f")
 
 [node name="PortalCamera" type="Camera3D" parent="PortalViewport"]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="PortalDetectionBody" type="StaticBody3D" parent="."]
 collision_layer = 512
 collision_mask = 512
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PortalDetectionBody"]
 shape = SubResource("BoxShape3D_r2tip")
+
+[node name="PortalCollisionBody" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PortalCollisionBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4995, 0, 0)
+shape = SubResource("BoxShape3D_ur7mh")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="PortalCollisionBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4995, 0)
+shape = SubResource("BoxShape3D_nccee")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="PortalCollisionBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4995, 0, 0)
+shape = SubResource("BoxShape3D_hd5ie")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="PortalCollisionBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4995, 0)
+shape = SubResource("BoxShape3D_55pwm")

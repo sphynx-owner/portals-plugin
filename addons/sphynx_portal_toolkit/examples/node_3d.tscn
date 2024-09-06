@@ -1,10 +1,10 @@
 [gd_scene load_steps=34 format=3 uid="uid://bkplvx38o8s74"]
 
 [ext_resource type="Texture2D" uid="uid://dyiy0heuf6ykb" path="res://icon.svg" id="1_7trp7"]
-[ext_resource type="Script" path="res://spring_arm_3d.gd" id="2_0k5o5"]
+[ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/examples/spring_arm_3d.gd" id="2_0k5o5"]
 [ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/teleporting/splittable_component.gd" id="2_1ik2r"]
-[ext_resource type="Script" path="res://character_body_3d.gd" id="2_6ikkn"]
-[ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/teleporting/spring_arm_collision.gd" id="2_6y0cj"]
+[ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/examples/character_body_3d.gd" id="2_6ikkn"]
+[ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/examples/spring_arm_collision.gd" id="2_6y0cj"]
 [ext_resource type="Shader" uid="uid://bp2ihin1o8y5n" path="res://addons/sphynx_portal_toolkit/teleporting/splittable_mesh_shader.tres" id="2_vqac7"]
 [ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/teleporting/teleport_component.gd" id="3_8i7u8"]
 [ext_resource type="PackedScene" uid="uid://d3b3awue80a6c" path="res://addons/sphynx_portal_toolkit/portals/portal_scene.tscn" id="4_r8fyi"]
@@ -68,7 +68,7 @@ data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0
 
 [sub_resource type="SphereMesh" id="SphereMesh_ty4k6"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_85fs0"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dp4q6"]
 albedo_color = Color(1, 0, 0, 1)
 albedo_texture = ExtResource("1_7trp7")
 
@@ -79,6 +79,7 @@ data = PackedVector3Array(0, 0.5, 0, 0, 0.5, 0, 0, 0.4977, 0.0475, 0, 0.5, 0, 0.
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("6_t071c")
+shader_parameter/viewport_indexes = null
 shader_parameter/show_debug = null
 shader_parameter/debug_color = null
 shader_parameter/inner_textures = null
@@ -87,6 +88,7 @@ shader_parameter/inner_textures = null
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("6_t071c")
+shader_parameter/viewport_indexes = null
 shader_parameter/show_debug = null
 shader_parameter/debug_color = null
 shader_parameter/inner_textures = null
@@ -95,6 +97,7 @@ shader_parameter/inner_textures = null
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("6_t071c")
+shader_parameter/viewport_indexes = null
 shader_parameter/show_debug = null
 shader_parameter/debug_color = null
 shader_parameter/inner_textures = null
@@ -103,6 +106,7 @@ shader_parameter/inner_textures = null
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("6_t071c")
+shader_parameter/viewport_indexes = null
 shader_parameter/show_debug = null
 shader_parameter/debug_color = null
 shader_parameter/inner_textures = null
@@ -136,10 +140,10 @@ environment = SubResource("Environment_l3skf")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.229914, 0.973211, 0, -0.973211, 0.229914, 0, 0, 0)
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("camera")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.20119, 1.86206, 0)
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("spring_arm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.20119, 1.86206, 0)
 script = ExtResource("2_6ikkn")
-camera = NodePath("SpringArm3D/Camera3D")
+spring_arm = NodePath("SpringArm3D")
 
 [node name="BodyCollision" type="CollisionShape3D" parent="CharacterBody3D"]
 shape = SubResource("CapsuleShape3D_3dk38")
@@ -212,9 +216,9 @@ surface_material_override/0 = SubResource("StandardMaterial3D_05gd6")
 shape = SubResource("ConcavePolygonShape3D_dlggf")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.38338, 0.140671, 0.808694)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.568016, 0.140671, -0.641814)
 mesh = SubResource("SphereMesh_ty4k6")
-surface_material_override/0 = SubResource("StandardMaterial3D_85fs0")
+surface_material_override/0 = SubResource("StandardMaterial3D_dp4q6")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D4"]
 
@@ -222,13 +226,13 @@ surface_material_override/0 = SubResource("StandardMaterial3D_85fs0")
 shape = SubResource("ConcavePolygonShape3D_bq7pf")
 
 [node name="Portal1" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
-transform = Transform3D(2, 0, 0, 0, 4, 0, 0, 0, 1, 2.0511, 2.15849, -6.25105)
+transform = Transform3D(2, 0, 0, 0, 4, 0, 0, 0, 1, 2.0511, 1.86976, -6.25105)
 surface_material_override/0 = SubResource("ShaderMaterial_c3pyk")
 recursions = 3
 other_portal = NodePath("../Portal2")
 
 [node name="Portal2" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
-transform = Transform3D(1.99641, 0, -0.0599162, 0, 4, 0, 0.119832, 0, 0.998203, 2.0511, 2.15849, 3.82622)
+transform = Transform3D(1.99641, 0, -0.0599162, 0, 4, 0, 0.119832, 0, 0.998203, 2.0511, 1.86976, 3.82622)
 surface_material_override/0 = SubResource("ShaderMaterial_r506b")
 recursions = 3
 other_portal = NodePath("../Portal1")

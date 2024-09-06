@@ -34,6 +34,7 @@ void vertex() {
 }
 
 void fragment() {
+	
 	vec4 world_position = INV_VIEW_MATRIX * INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2. - 1., FRAGCOORD.z, 1.);
 	world_position.xyz /= world_position.w;
 	
