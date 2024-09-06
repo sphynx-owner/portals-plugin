@@ -1,6 +1,6 @@
 [gd_scene load_steps=34 format=3 uid="uid://bkplvx38o8s74"]
 
-[ext_resource type="Texture2D" uid="uid://dyiy0heuf6ykb" path="res://icon.svg" id="1_7trp7"]
+[ext_resource type="Texture2D" uid="uid://dyiy0heuf6ykb" path="res://addons/sphynx_portal_toolkit/examples/icon.svg" id="1_7trp7"]
 [ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/examples/spring_arm_3d.gd" id="2_0k5o5"]
 [ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/teleporting/splittable_component.gd" id="2_1ik2r"]
 [ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/examples/character_body_3d.gd" id="2_6ikkn"]
