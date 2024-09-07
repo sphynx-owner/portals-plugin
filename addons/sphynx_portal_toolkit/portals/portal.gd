@@ -98,6 +98,9 @@ func _process(delta: float) -> void:
 	var clip_plane_origin : Vector3 = global_position
 	var clip_plane_normal : Vector3 = global_basis.z.normalized()
 	
+	if clip_plane_normal.dot(get_viewport().get_camera_3d().global_position - clip_plane_origin) < 0:
+		clip_plane_normal = -clip_plane_normal
+	
 	Portal.clip_planes_image.set_pixelv(Vector2(all_portals[self] * 2, 0), Color(clip_plane_origin.x, clip_plane_origin.y, clip_plane_origin.z, 1))
 	Portal.clip_planes_image.set_pixelv(Vector2(all_portals[self] * 2 + 1, 0), Color(clip_plane_normal.x, clip_plane_normal.y, clip_plane_normal.z, 1))
 
