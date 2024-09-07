@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://bkplvx38o8s74"]
+[gd_scene load_steps=36 format=3 uid="uid://bkplvx38o8s74"]
 
 [ext_resource type="Texture2D" uid="uid://dyiy0heuf6ykb" path="res://addons/sphynx_portal_toolkit/examples/icon.svg" id="1_7trp7"]
 [ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/examples/spring_arm_3d.gd" id="2_0k5o5"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://d3b3awue80a6c" path="res://addons/sphynx_portal_toolkit/portals/portal_scene.tscn" id="4_r8fyi"]
 [ext_resource type="Shader" path="res://addons/sphynx_portal_toolkit/portals/portal.gdshader" id="6_t071c"]
 [ext_resource type="Shader" path="res://addons/sphynx_portal_toolkit/teleporting/clippable_mesh_shader.gdshader" id="8_7qlif"]
+[ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/teleporting/clippable_mesh_component.gd" id="9_p7sg1"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7ogde"]
 
@@ -227,15 +228,19 @@ surface_material_override/0 = SubResource("StandardMaterial3D_05gd6")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D3/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_dlggf")
 
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+[node name="ClippableMeshTest" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.82299, 0.561712, -4.69013)
 mesh = SubResource("SphereMesh_ty4k6")
 surface_material_override/0 = SubResource("ShaderMaterial_sbdpc")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D4"]
+[node name="StaticBody3D" type="StaticBody3D" parent="ClippableMeshTest"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D4/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ClippableMeshTest/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_bq7pf")
+
+[node name="ClippableMeshComponent" type="Node" parent="ClippableMeshTest" node_paths=PackedStringArray("clippable_mesh")]
+script = ExtResource("9_p7sg1")
+clippable_mesh = NodePath("..")
 
 [node name="Portal1" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
 transform = Transform3D(2, 0, 0, 0, 4, 0, 0, 0, 1, 2.0511, 1.86976, -6.25105)

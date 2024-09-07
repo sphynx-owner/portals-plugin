@@ -37,7 +37,7 @@ void fragment() {
 	vec3 clip_plane_origin = texture(clip_planes_texture, vec2(clip_plane_index, 0.5)).xyz;
 	vec3 clip_plane_normal = texture(clip_planes_texture, vec2(clip_plane_index + 1., 0.5)).xyz;
 	
-	if(dot(world_position.xyz - clip_plane_origin, clip_plane_normal) < 0.) {
+	if(clip_plane_index < 1000. && dot(world_position.xyz - clip_plane_origin, clip_plane_normal) < 0.) {
 		discard;
 	}
 	

@@ -15,6 +15,10 @@ config/features=PackedStringArray("4.3", "Forward Plus")
 run/max_fps=60
 config/icon="res://addons/sphynx_portal_toolkit/examples/icon.svg"
 
+[autoload]
+
+ClipPlanesUpdater="*res://addons/sphynx_portal_toolkit/portals/clip_planes_updater.gd"
+
 [display]
 
 window/size/viewport_width=1280

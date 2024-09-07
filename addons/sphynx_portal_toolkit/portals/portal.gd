@@ -47,13 +47,18 @@ var all_subviewports : Array[SubViewport]
 var all_cameras : Array[Camera3D]
 
 func _ready() -> void:
+	subscribe_portal(self)
 	portal_viewport.size = get_window().size
-	portal_camera
+	sync_camera_index(portal_camera, self)
 	set_surface_override_material(0, portal_material.duplicate())
 	get_surface_override_material(0).set_shader_parameter("viewport_texture", portal_viewport.get_texture())
 	get_surface_override_material(0).set_shader_parameter("debug_color", debug_color)
 	get_surface_override_material(0).set_shader_parameter("show_debug", 1 if show_debug else 0)
 	generate_subviewports()
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		unsubscribe_portal(self)
 
 func clear_subviewports():
 	for subviewport in all_subviewports:
@@ -76,6 +81,7 @@ func generate_subviewports():
 		new_camera.cull_mask = portal_camera.cull_mask
 		all_subviewports.append(new_viewport)
 		all_cameras.append(new_camera)
+		sync_camera_index(new_camera, self)
 		all_inner_textures.append(new_viewport.get_texture())
 	get_surface_override_material(0).set_shader_parameter("inner_textures", all_inner_textures)
 
@@ -88,9 +94,37 @@ func _process(delta: float) -> void:
 		current_iter_transform = teleport_transform * current_iter_transform
 		camera.global_transform = current_iter_transform
 		camera.fov = get_viewport().get_camera_3d().fov
+	
+	var clip_plane_origin : Vector3 = global_position
+	var clip_plane_normal : Vector3 = global_basis.z.normalized()
+	
+	Portal.clip_planes_image.set_pixelv(Vector2(all_portals[self] * 2, 0), Color(clip_plane_origin.x, clip_plane_origin.y, clip_plane_origin.z, 1))
+	Portal.clip_planes_image.set_pixelv(Vector2(all_portals[self] * 2 + 1, 0), Color(clip_plane_normal.x, clip_plane_normal.y, clip_plane_normal.z, 1))
 
-static func subscribe_portal(portal : Portal):
-	pass
+static func subscribe_portal(in_portal : Portal):
+	if all_portals.has(in_portal):
+		return
+	
+	all_portals[in_portal] = 0
+	
+	refresh_portal_indexes()
 
-static func unsubscribe_portal(portal : Portal):
-	pass
+static func unsubscribe_portal(in_portal : Portal):
+	if !all_portals.has(in_portal):
+		return
+	
+	all_portals.erase(in_portal)
+
+static func refresh_portal_indexes():
+	var index : int = 0
+	for portal in all_portals.keys():
+		all_portals[portal] = index
+		index += 1
+		var current_portal : Portal = portal as Portal
+		sync_camera_index(current_portal.portal_camera, current_portal)
+		for camera in current_portal.all_cameras:
+			sync_camera_index(camera, current_portal)
+
+static func sync_camera_index(in_camera : Camera3D, in_portal : Portal):
+	in_camera.near = 0.2
+	in_camera.far = 500 + all_portals[in_portal]
