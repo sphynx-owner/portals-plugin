@@ -20,6 +20,8 @@ func _ready() -> void:
 	for material in mesh_copy.get_surface_override_material_count():
 		mesh_copy.set_surface_override_material(material, mesh_copy.get_surface_override_material(material).duplicate())
 		mesh_copy.get_surface_override_material(material).set_shader_parameter("active_split", true)
+		mesh_copy.get_surface_override_material(material).set_shader_parameter("clip_planes_texture", Portal.clip_planes_texture)
+		mesh_to_split.get_surface_override_material(material).set_shader_parameter("clip_planes_texture", Portal.clip_planes_texture)
 	get_tree().root.add_child.call_deferred(mesh_copy)
 	mesh_collision.collision_mask = 1 << 9
 	mesh_collision.collision_layer = 1 << 9

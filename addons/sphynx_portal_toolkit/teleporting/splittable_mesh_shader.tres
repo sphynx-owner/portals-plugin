@@ -29,6 +29,8 @@ uniform vec3 split_plane_origin;
 
 uniform vec3 split_plane_normal;
 
+uniform sampler2D clip_planes_texture : filter_nearest, repeat_disable;
+
 void vertex() {
 	UV = UV * uv1_scale.xy + uv1_offset.xy;
 }
@@ -40,6 +42,16 @@ void fragment() {
 	
 	vec3 plane_offset = world_position.xyz - split_plane_origin;
 	if(active_split && dot(plane_offset, split_plane_normal) < 0.) {
+		discard;
+	}
+	float projection_value = PROJECTION_MATRIX[2][2];
+	int clip_plane_index = int(ceil(.2 / projection_value + .2) - 500.);
+	
+	vec3 clip_plane_origin = texelFetch(clip_planes_texture, ivec2(clip_plane_index * 3, 0), 0).xyz;
+	vec3 clip_plane_normal = texelFetch(clip_planes_texture, ivec2(clip_plane_index * 3 + 1, 0), 0).xyz;
+	vec3 clip_plane_dimensions = texelFetch(clip_planes_texture, ivec2(clip_plane_index * 3 + 2, 0), 0).xyz;
+	
+	if(clip_plane_index < 1000 && dot(world_position.xyz - clip_plane_origin, clip_plane_normal) > 0.) {
 		discard;
 	}
 	

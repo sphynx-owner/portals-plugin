@@ -34,10 +34,11 @@ void fragment() {
 	vec4 world_position = INV_VIEW_MATRIX * INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2. - 1., FRAGCOORD.z, 1.0);
 	world_position.xyz /= world_position.w;
 	
-	vec3 clip_plane_origin = texelFetch(clip_planes_texture, ivec2(clip_plane_index, 0), 0).xyz;
-	vec3 clip_plane_normal = texelFetch(clip_planes_texture, ivec2(clip_plane_index + 1, 0), 0).xyz;
+	vec3 clip_plane_origin = texelFetch(clip_planes_texture, ivec2(clip_plane_index * 3, 0), 0).xyz;
+	vec3 clip_plane_normal = texelFetch(clip_planes_texture, ivec2(clip_plane_index * 3 + 1, 0), 0).xyz;
+	vec3 clip_plane_dimensions = texelFetch(clip_planes_texture, ivec2(clip_plane_index * 3 + 2, 0), 0).xyz;
 	
-	if(clip_plane_index < 1000 && dot(world_position.xyz - clip_plane_origin, clip_plane_normal) < 0.) {
+	if(clip_plane_index < 1000 && dot(world_position.xyz - clip_plane_origin, clip_plane_normal) > 0.) {
 		discard;
 	}
 	

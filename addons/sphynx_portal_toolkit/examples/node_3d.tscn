@@ -190,7 +190,7 @@ script = ExtResource("2_0k5o5")
 [node name="Camera3D" type="Camera3D" parent="CharacterBody3D/SpringArm3D"]
 cull_mask = 1048563
 near = 0.2
-far = 500.0
+far = 501.0
 
 [node name="TeleportComponent" type="Area3D" parent="CharacterBody3D/SpringArm3D/Camera3D" node_paths=PackedStringArray("parent_to_teleport")]
 disable_mode = 2
@@ -231,7 +231,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_05gd6")
 shape = SubResource("ConcavePolygonShape3D_dlggf")
 
 [node name="ClippableMeshTest" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.82299, 0.561712, -4.69013)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.82299, 0.561712, -6.31496)
 mesh = SubResource("SphereMesh_ty4k6")
 surface_material_override/0 = SubResource("ShaderMaterial_sbdpc")
 
