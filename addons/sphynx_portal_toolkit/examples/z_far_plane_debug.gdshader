@@ -8,7 +8,7 @@ void vertex() {
 
 void fragment() {
 	float projection_value = PROJECTION_MATRIX[2][2];
-	ALBEDO = vec3(ceil(.2 / projection_value + .2) == 503. ? 1. : 0.);
+	float index = round((projection_value * 1. + 1.) / (projection_value) - 499.);
 }
 
 //void light() {
