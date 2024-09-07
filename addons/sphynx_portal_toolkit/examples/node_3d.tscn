@@ -189,8 +189,6 @@ script = ExtResource("2_0k5o5")
 
 [node name="Camera3D" type="Camera3D" parent="CharacterBody3D/SpringArm3D"]
 cull_mask = 1048563
-near = 0.2
-far = 501.0
 
 [node name="TeleportComponent" type="Area3D" parent="CharacterBody3D/SpringArm3D/Camera3D" node_paths=PackedStringArray("parent_to_teleport")]
 disable_mode = 2
