@@ -3,6 +3,16 @@ extends MeshInstance3D
 
 const portal_material : Material = preload("res://addons/sphynx_portal_toolkit/portals/portal_material.tres")
 
+static var all_portals : Dictionary
+
+static var clip_planes_image : Image = Image.create(1000, 1, false, Image.FORMAT_RGBAF)
+
+static var clip_planes_texture : ImageTexture:
+	get:
+		if !clip_planes_texture:
+			clip_planes_texture = ImageTexture.create_from_image(clip_planes_image)
+		return clip_planes_texture
+
 @export var portal_viewport : SubViewport
 
 @export var portal_camera : Camera3D
@@ -78,3 +88,9 @@ func _process(delta: float) -> void:
 		current_iter_transform = teleport_transform * current_iter_transform
 		camera.global_transform = current_iter_transform
 		camera.fov = get_viewport().get_camera_3d().fov
+
+static func subscribe_portal(portal : Portal):
+	pass
+
+static func unsubscribe_portal(portal : Portal):
+	pass
