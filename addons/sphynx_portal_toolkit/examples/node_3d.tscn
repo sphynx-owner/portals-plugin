@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://bkplvx38o8s74"]
+[gd_scene load_steps=40 format=3 uid="uid://bkplvx38o8s74"]
 
 [ext_resource type="Texture2D" uid="uid://dyiy0heuf6ykb" path="res://addons/sphynx_portal_toolkit/examples/icon.svg" id="1_7trp7"]
 [ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/examples/spring_arm_3d.gd" id="2_0k5o5"]
@@ -12,7 +12,6 @@
 [ext_resource type="Shader" path="res://addons/sphynx_portal_toolkit/teleporting/clippable_mesh_shader.gdshader" id="8_7qlif"]
 [ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/teleporting/clippable_mesh_component.gd" id="9_p7sg1"]
 [ext_resource type="Script" path="res://addons/sphynx_portal_toolkit/examples/mesh_mover.gd" id="10_sjj2r"]
-[ext_resource type="Shader" path="res://addons/sphynx_portal_toolkit/examples/z_far_plane_debug.gdshader" id="13_jpd0c"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7ogde"]
 
@@ -191,12 +190,6 @@ shader_parameter/active_split = false
 shader_parameter/split_plane_origin = null
 shader_parameter/split_plane_normal = null
 
-[sub_resource type="SphereMesh" id="SphereMesh_nl5m3"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ff7s2"]
-render_priority = 0
-shader = ExtResource("13_jpd0c")
-
 [node name="Node3D" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -241,8 +234,6 @@ script = ExtResource("2_0k5o5")
 
 [node name="Camera3D" type="Camera3D" parent="CharacterBody3D/SpringArm3D"]
 cull_mask = 1048563
-near = 1.0
-far = 500.0
 
 [node name="TeleportComponent" type="Area3D" parent="CharacterBody3D/SpringArm3D/Camera3D" node_paths=PackedStringArray("parent_to_teleport")]
 disable_mode = 2
@@ -330,31 +321,37 @@ shape = SubResource("SphereShape3D_hji50")
 [node name="Portal1" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
 transform = Transform3D(2, 0, 0, 0, 4, 0, 0, 0, 1, 2.0511, 1.86976, -6.25105)
 surface_material_override/0 = SubResource("ShaderMaterial_c3pyk")
+recursions = 3
 other_portal = NodePath("../Portal2")
 
 [node name="Portal2" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
 transform = Transform3D(1.99641, 0, -0.0599162, 0, 4, 0, 0.119832, 0, 0.998203, 2.0511, 1.86976, 3.82622)
 surface_material_override/0 = SubResource("ShaderMaterial_r506b")
+recursions = 3
 other_portal = NodePath("../Portal1")
 
 [node name="Portal3" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
 transform = Transform3D(1.715, 0, 0, 0, -7.4965e-08, -1.715, 0, 1.715, -7.4965e-08, -1.311, 1.561, 0)
 surface_material_override/0 = SubResource("ShaderMaterial_5v7hw")
+recursions = 3
 other_portal = NodePath("../Portal4")
 
 [node name="Portal4" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
 transform = Transform3D(1.715, 0, 0, 0, -7.4965e-08, -1.715, 0, 1.715, -7.4965e-08, -1.31066, 4.24867, 0)
 surface_material_override/0 = SubResource("ShaderMaterial_l50kx")
+recursions = 3
 other_portal = NodePath("../Portal3")
 
 [node name="Portal5" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
 transform = Transform3D(-2.955, 0, 8.74228e-08, 0, 7.42, 0, -2.58334e-07, 0, -1, 7.87592, 0, -4.69096)
 surface_material_override/0 = SubResource("ShaderMaterial_40evu")
+recursions = 3
 other_portal = NodePath("../Portal6")
 
 [node name="Portal6" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
 transform = Transform3D(2.955, 0, 0, 0, 7.42, 0, 0, 0, 1, 7.87592, 0, 1.38124)
 surface_material_override/0 = SubResource("ShaderMaterial_fh4bc")
+recursions = 3
 other_portal = NodePath("../Portal5")
 
 [node name="BallDemo" type="RigidBody3D" parent="."]
@@ -386,8 +383,3 @@ script = ExtResource("2_1ik2r")
 mesh_to_split = NodePath("../MeshInstance3D")
 mesh_collision = NodePath("../SplittableArea")
 teleport_component = NodePath("../TeleportComponent")
-
-[node name="ZFarPlaneDebug" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.20306, 2.3873, -3.80782)
-mesh = SubResource("SphereMesh_nl5m3")
-surface_material_override/0 = SubResource("ShaderMaterial_ff7s2")
