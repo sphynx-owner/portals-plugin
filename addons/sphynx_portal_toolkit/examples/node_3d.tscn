@@ -49,18 +49,40 @@ shader_parameter/split_plane_normal = Vector3(1, 0, 0)
 [sub_resource type="PlaneMesh" id="PlaneMesh_2i6hs"]
 size = Vector2(40, 40)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_opxda"]
-albedo_texture = ExtResource("1_7trp7")
-uv1_scale = Vector3(10, 10, 10)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pu1cd"]
+render_priority = 0
+shader = ExtResource("8_7qlif")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/point_size = null
+shader_parameter/roughness = null
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/uv1_scale = Vector3(10, 10, 10)
+shader_parameter/uv1_offset = null
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = null
+shader_parameter/texture_albedo = ExtResource("1_7trp7")
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_i8qik"]
 data = PackedVector3Array(5, 0, 5, -5, 0, 5, 5, 0, -5, -5, 0, 5, -5, 0, -5, 5, 0, -5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_cnlav"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_05gd6"]
-albedo_color = Color(0, 1, 0, 1)
-albedo_texture = ExtResource("1_7trp7")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h1ot3"]
+render_priority = 0
+shader = ExtResource("8_7qlif")
+shader_parameter/albedo = Color(0, 1, 0, 1)
+shader_parameter/point_size = null
+shader_parameter/roughness = null
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = null
+shader_parameter/metallic = null
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = null
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = null
+shader_parameter/texture_albedo = ExtResource("1_7trp7")
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_dvoxu"]
 data = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5)
@@ -200,7 +222,7 @@ parent_to_teleport = NodePath("../../..")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_2i6hs")
-surface_material_override/0 = SubResource("StandardMaterial3D_opxda")
+surface_material_override/0 = SubResource("ShaderMaterial_pu1cd")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
 
@@ -208,28 +230,40 @@ surface_material_override/0 = SubResource("StandardMaterial3D_opxda")
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
 shape = SubResource("ConcavePolygonShape3D_i8qik")
 
+[node name="ClippableMeshComponent" type="Node" parent="MeshInstance3D" node_paths=PackedStringArray("clippable_mesh")]
+script = ExtResource("9_p7sg1")
+clippable_mesh = NodePath("..")
+
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.00068, 0.386267, 0.87815)
 mesh = SubResource("BoxMesh_cnlav")
-surface_material_override/0 = SubResource("StandardMaterial3D_05gd6")
+surface_material_override/0 = SubResource("ShaderMaterial_h1ot3")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D2"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_dvoxu")
 
+[node name="ClippableMeshComponent" type="Node" parent="MeshInstance3D2" node_paths=PackedStringArray("clippable_mesh")]
+script = ExtResource("9_p7sg1")
+clippable_mesh = NodePath("..")
+
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.06111, 0.386267, 2.0943)
 mesh = SubResource("BoxMesh_cnlav")
-surface_material_override/0 = SubResource("StandardMaterial3D_05gd6")
+surface_material_override/0 = SubResource("ShaderMaterial_h1ot3")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D3"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D3/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_dlggf")
 
+[node name="ClippableMeshComponent" type="Node" parent="MeshInstance3D3" node_paths=PackedStringArray("clippable_mesh")]
+script = ExtResource("9_p7sg1")
+clippable_mesh = NodePath("..")
+
 [node name="ClippableMeshTest" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.82299, 0.561712, -6.31496)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5322, 0.561712, -5.14833)
 mesh = SubResource("SphereMesh_ty4k6")
 surface_material_override/0 = SubResource("ShaderMaterial_sbdpc")
 
@@ -255,13 +289,13 @@ recursions = 3
 other_portal = NodePath("../Portal1")
 
 [node name="Portal3" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
-transform = Transform3D(1.715, 0, 0, 0, -7.4965e-08, 1.715, 0, -1.715, -7.4965e-08, -1.31066, 1.50737, 0)
+transform = Transform3D(1.715, 0, 0, 0, -7.4965e-08, -1.715, 0, 1.715, -7.4965e-08, -1.311, 1.561, 0)
 surface_material_override/0 = SubResource("ShaderMaterial_5v7hw")
 recursions = 2
 other_portal = NodePath("../Portal4")
 
 [node name="Portal4" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
-transform = Transform3D(1.715, 0, 0, 0, -7.4965e-08, 1.715, 0, -1.715, -7.4965e-08, -1.31066, 4.24867, 0)
+transform = Transform3D(1.715, 0, 0, 0, -7.4965e-08, -1.715, 0, 1.715, -7.4965e-08, -1.31066, 4.24867, 0)
 surface_material_override/0 = SubResource("ShaderMaterial_l50kx")
 recursions = 2
 other_portal = NodePath("../Portal3")

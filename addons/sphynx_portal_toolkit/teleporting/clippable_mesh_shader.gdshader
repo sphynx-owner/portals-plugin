@@ -30,17 +30,17 @@ void fragment() {
 	vec2 base_uv = UV;
 	float projection_value = PROJECTION_MATRIX[2][2];
 	int clip_plane_index = int(ceil(.2 / projection_value + .2) - 500.);
-	
+
 	vec4 world_position = INV_VIEW_MATRIX * INV_PROJECTION_MATRIX * vec4(SCREEN_UV * 2. - 1., FRAGCOORD.z, 1.0);
 	world_position.xyz /= world_position.w;
-	
+
 	vec3 clip_plane_origin = texelFetch(clip_planes_texture, ivec2(clip_plane_index * 2, 0), 0).xyz;
 	vec3 clip_plane_normal = texelFetch(clip_planes_texture, ivec2(clip_plane_index * 2 + 1, 0), 0).xyz;
-	
+
 	if(clip_plane_index < 1000 && dot(world_position.xyz - clip_plane_origin, clip_plane_normal) < 0.) {
 		discard;
 	}
-	
+
 	vec4 albedo_tex = texture(texture_albedo, base_uv);
 	ALBEDO = albedo.rgb * albedo_tex.rgb;
 
