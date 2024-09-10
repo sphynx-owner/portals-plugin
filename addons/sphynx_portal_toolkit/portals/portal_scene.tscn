@@ -25,13 +25,14 @@ size = Vector3(0.1, 1, 0.2)
 [sub_resource type="BoxShape3D" id="BoxShape3D_55pwm"]
 size = Vector3(1, 0.1, 0.2)
 
-[node name="Portal1" type="MeshInstance3D" node_paths=PackedStringArray("portal_viewport", "portal_camera", "portal_chroma_key")]
+[node name="Portal1" type="MeshInstance3D" node_paths=PackedStringArray("portal_viewport", "portal_camera", "portal_chroma_key", "portal_detection_body")]
 mesh = SubResource("QuadMesh_gichd")
 surface_material_override/0 = ExtResource("1_1og6m")
 script = ExtResource("1_s7yg8")
 portal_viewport = NodePath("PortalViewport")
 portal_camera = NodePath("PortalViewport/PortalCamera")
 portal_chroma_key = NodePath("PortalChromaKey")
+portal_detection_body = NodePath("PortalDetectionBody")
 
 [node name="PortalChromaKey" type="MeshInstance3D" parent="."]
 layers = 4

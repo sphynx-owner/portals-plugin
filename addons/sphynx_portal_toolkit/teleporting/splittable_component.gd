@@ -54,14 +54,12 @@ func get_in_front(portal : Portal) -> bool:
 	return !(portal_transform.basis.z.dot(offset) < 0)
 
 func on_portal_body_entered(body : Node3D):
-	print("split entered portal")
 	portal_in_contact = body.owner
 	in_front = get_in_front(portal_in_contact)
 	mesh_copy.visible = true
 	mesh_to_split.get_surface_override_material(0).set_shader_parameter("active_split", true)
 
 func on_portal_body_exited(body : Node3D):
-	print("split exited portal")
 	portal_in_contact = null
 	mesh_copy.visible = false
 	mesh_to_split.get_surface_override_material(0).set_shader_parameter("active_split", false)

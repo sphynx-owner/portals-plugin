@@ -34,10 +34,10 @@ void fragment() {
 
 	float projection_value = PROJECTION_MATRIX[2][2];
 	int clip_plane_index = int(round((projection_value * 1. + 1.) / (projection_value) - 500.));
-	
+
 	vec3 clip_plane_origin = texelFetch(clip_planes_texture, ivec2(clip_plane_index * 2, 0), 0).xyz;
 	vec3 clip_plane_normal = texelFetch(clip_planes_texture, ivec2(clip_plane_index * 2 + 1, 0), 0).xyz;
-	
+
 	if(dot(world_position.xyz - clip_plane_origin, clip_plane_normal) < 0.) {
 		discard;
 	}

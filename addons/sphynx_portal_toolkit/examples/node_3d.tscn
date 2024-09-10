@@ -111,9 +111,9 @@ shader_parameter/split_plane_origin = null
 shader_parameter/split_plane_normal = null
 shader_parameter/texture_albedo = ExtResource("1_7trp7")
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_helbj"]
-
 [sub_resource type="SphereShape3D" id="SphereShape3D_hji50"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_helbj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_c3pyk"]
 resource_local_to_scene = true
@@ -304,6 +304,9 @@ script = ExtResource("3_8i7u8")
 radius = 0.5
 parent_to_teleport = NodePath("..")
 
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("SphereShape3D_hji50")
+
 [node name="Area3D" type="Area3D" parent="RigidBody3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D/Area3D"]
@@ -315,43 +318,40 @@ mesh_to_split = NodePath("../ClippableMeshTest")
 mesh_collision = NodePath("../Area3D")
 teleport_component = NodePath("../TeleportComponent")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
-shape = SubResource("SphereShape3D_hji50")
-
 [node name="Portal1" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
 transform = Transform3D(2, 0, 0, 0, 4, 0, 0, 0, 1, 2.0511, 1.86976, -6.25105)
 surface_material_override/0 = SubResource("ShaderMaterial_c3pyk")
-recursions = 3
+recursions = 1
 other_portal = NodePath("../Portal2")
 
 [node name="Portal2" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
 transform = Transform3D(1.99641, 0, -0.0599162, 0, 4, 0, 0.119832, 0, 0.998203, 2.0511, 1.86976, 3.82622)
 surface_material_override/0 = SubResource("ShaderMaterial_r506b")
-recursions = 3
+recursions = 1
 other_portal = NodePath("../Portal1")
 
 [node name="Portal3" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
 transform = Transform3D(1.715, 0, 0, 0, -7.4965e-08, -1.715, 0, 1.715, -7.4965e-08, -1.311, 1.561, 0)
 surface_material_override/0 = SubResource("ShaderMaterial_5v7hw")
-recursions = 3
+recursions = 1
 other_portal = NodePath("../Portal4")
 
 [node name="Portal4" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
 transform = Transform3D(1.715, 0, 0, 0, -7.4965e-08, -1.715, 0, 1.715, -7.4965e-08, -1.31066, 4.24867, 0)
 surface_material_override/0 = SubResource("ShaderMaterial_l50kx")
-recursions = 3
+recursions = 1
 other_portal = NodePath("../Portal3")
 
 [node name="Portal5" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
 transform = Transform3D(-2.955, 0, 8.74228e-08, 0, 7.42, 0, -2.58334e-07, 0, -1, 7.87592, 0, -4.69096)
 surface_material_override/0 = SubResource("ShaderMaterial_40evu")
-recursions = 3
+recursions = 1
 other_portal = NodePath("../Portal6")
 
 [node name="Portal6" parent="." node_paths=PackedStringArray("other_portal") instance=ExtResource("4_r8fyi")]
 transform = Transform3D(2.955, 0, 0, 0, 7.42, 0, 0, 0, 1, 7.87592, 0, 1.38124)
 surface_material_override/0 = SubResource("ShaderMaterial_fh4bc")
-recursions = 3
+recursions = 1
 other_portal = NodePath("../Portal5")
 
 [node name="BallDemo" type="RigidBody3D" parent="."]

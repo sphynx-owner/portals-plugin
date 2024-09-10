@@ -25,10 +25,13 @@ static var clip_planes_texture : ImageTexture:
 
 @export var portal_chroma_key : MeshInstance3D
 
+@export var portal_detection_body : CollisionObject3D
+
 @export var other_portal : Portal :
 	set(value):
 		other_portal = value
 		if !other_portal:
+			disable_portal()
 			return
 		
 		layers = (1 << 1)
@@ -41,12 +44,16 @@ static var clip_planes_texture : ImageTexture:
 		other_portal.portal_camera.cull_mask = ~((1 << 1) | (1 << 2))
 		for camera in other_portal.all_cameras:
 			camera.cull_mask = other_portal.portal_camera.cull_mask
+		
+		enable_portal()
 
 var all_subviewports : Array[SubViewport]
 
 var all_cameras : Array[Camera3D]
 
 func _ready() -> void:
+	if !other_portal:
+		disable_portal()
 	subscribe_portal(self)
 	portal_viewport.size = get_window().size
 	sync_camera_index(portal_camera, self)
@@ -55,6 +62,12 @@ func _ready() -> void:
 	get_surface_override_material(0).set_shader_parameter("debug_color", debug_color)
 	get_surface_override_material(0).set_shader_parameter("show_debug", 1 if show_debug else 0)
 	generate_subviewports()
+
+func enable_portal():
+	portal_detection_body.collision_layer = 1 << 9
+
+func disable_portal():
+	portal_detection_body.collision_layer = 0
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
@@ -86,6 +99,9 @@ func generate_subviewports():
 	get_surface_override_material(0).set_shader_parameter("inner_textures", all_inner_textures)
 
 func _process(delta: float) -> void:
+	if !other_portal:
+		return
+	
 	var teleport_transform : Transform3D = other_portal.global_transform * global_transform.affine_inverse()
 	var current_iter_transform : Transform3D = teleport_transform * get_viewport().get_camera_3d().global_transform
 	portal_camera.global_transform = current_iter_transform
